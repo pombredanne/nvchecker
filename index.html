@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="nvchecker : New version checker for software">
 
@@ -31,39 +31,190 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p><strong>nvchecker</strong> (short for <em>new version checker</em>) is for checking if a new version of some software has been released.</p>
+<h1><a href="#dependency" class_="anchor" name="dependency"><span class_="octicon octicon-link"></span></a>Dependency</h1>
+<ul>
+<li>Python 3</li>
+<li>Tornado</li>
+<li>Optional pycurl</li>
+<li>All commands used in your version source files</li>
+</ul>
+<h1><a href="#running" class_="anchor" name="running"><span class_="octicon octicon-link"></span></a>Running</h1>
+<p>To see available options:</p>
+<pre><code>./nvchecker --help
 </code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
+<p>Run with one or more software version source files:</p>
+<pre><code>./nvchecker source_file
+</code></pre>
+<p>You normally will like to specify some "version record files"; see below.</p>
+<h1><a href="#version%20record%20files" class_="anchor" name="version%20record%20files"><span class_="octicon octicon-link"></span></a>Version Record Files</h1>
+<p>Version record files record which version of the software you know or is available. They are simple key-value pairs of <code>(name, version)</code> seperated by a space<sup><a class="citation-reference" href="#v0-3" id="id1">[v0.3]</a>:</sup></p>
+<pre><code>fcitx 4.2.7
+google-chrome 27.0.1453.93-200836
+vim 7.3.1024
+</code></pre>
+<p>Say you've got a version record file called <code>old_ver.txt</code> which records all your watched software and their versions, as well as some configuration entries. To update it using <code>nvchecker</code>:</p>
+<pre><code>./nvchecker source.ini
+</code></pre>
+<p>See what are updated with <code>nvcmp</code>:</p>
+<pre><code>./nvcmp source.ini
+</code></pre>
+<p>Manually compare the two files for updates (assuming they are sorted alphabetically; files generated by <code>nvchecker</code> are already sorted):</p>
+<pre><code>comm -13 old_ver.txt new_ver.txt
+# or say that in English:
+comm -13 old_ver.txt new_ver.txt | awk '{print $1 " has updated to version " $2 "."}'
+# show both old and new versions
+join old_ver.txt new_ver.txt | awk '$2 != $3'
+</code></pre>
+<div class="section" id="the-nvtake-command">
+<h2>The <code>nvtake</code> Command</h2>
+<p>This command helps to manage version record files. It reads both old and new version record files, and a list of names given on the commandline. It then update the versions of those names in the old version record file.</p>
+<p>This helps when you have known (and processed) some of the updated software, but not all. You can tell nvchecker that via this command instead of editing the file by hand.</p>
+<p>This command will help most if you specify where you version record files are in your config file. See below for how to use a config file.</p>
+</div>
+<h1><a href="#version%20source%20files" class_="anchor" name="version%20source%20files"><span class_="octicon octicon-link"></span></a>Version Source Files</h1>
+<p>The software version source files are in ini format. <em>Section names</em> is the name of the software. Following fields are used to tell nvchecker how to determine the current version of that software.</p>
+<p>See <code>sample_source.ini</code> for an example.</p>
+<div class="section" id="configuration-section">
+<h2>Configuration Section</h2>
+<p>A special section named <code>__config__</code> is special, it provides some configuration options<sup><a class="citation-reference" href="#v0-4" id="id2">[v0.4]</a>.</sup></p>
+<p>Relative path are relative to the source files, and <code>~</code> and environmental variables are expanded.</p>
+<p>Currently supported options are:</p>
+<dl class="docutils">
+<dt>oldver</dt>
+<dd>Specify a version record file containing the old version info.</dd>
+<dt>newver</dt>
+<dd>Specify a version record file to storing the new version info.</dd>
+</dl>
+</div>
+<div class="section" id="search-in-a-webpage">
+<h2>Search in a Webpage</h2>
+<p>Search through a specific webpage for the version string. This type of version finding has these fields:</p>
+<dl class="docutils">
+<dt>url</dt>
+<dd>The URL of the webpage to fetch.</dd>
+<dt>encoding</dt>
+<dd>(<em>Optional</em>) The character encoding of the webpage, if <code>latin1</code> is not appropriate.</dd>
+<dt>regex</dt>
+<dd><p class="first">A regular expression used to find the version string.</p>
+<p>It can have zero or one capture group. The capture group or the whole match is the version string.</p>
+<p class="last">When multiple version strings are found, the maximum of those is chosen.</p>
+</dd>
+<dt>proxy</dt>
+<dd>The HTTP proxy to use. The format is <code>host:port</code>, e.g. <code>localhost:8087</code>. This requires <cite>pycurl &lt;http://pycurl.sourceforge.net/&gt;_</cite>.</dd>
+</dl>
+</div>
+<div class="section" id="find-with-a-command">
+<h2>Find with a Command</h2>
+<p>Use a shell command line to get the version. The output is striped first, so trailing newlines do not bother.</p>
+<dl class="docutils">
+<dt>cmd</dt>
+<dd>The command line to use. This will run with the system's standard shell (i.e. <code>/bin/sh</code>).</dd>
+</dl>
+</div>
+<div class="section" id="check-aur">
+<h2>Check AUR</h2>
+<p>Check <a class="reference external" href="https://aur.archlinux.org/">Arch User Repository</a> for updates.</p>
+<dl class="docutils">
+<dt>aur</dt>
+<dd>The package name in AUR. If empty, use the name of software (the <em>section name</em>).</dd>
+</dl>
+</div>
+<div class="section" id="check-github">
+<h2>Check GitHub</h2>
+<p>Check <a class="reference external" href="https://github.com/">GitHub</a> for updates. The version returned is in date format <code>%Y%m%d</code>, e.g. <code>20130701</code>.</p>
+<dl class="docutils">
+<dt>github</dt>
+<dd>The github repository, with author, e.g. <code>lilydjwg/nvchecker</code>.</dd>
+<dt>branch</dt>
+<dd>Which branch to track? Default: <code>master</code>.</dd>
+</dl>
+</div>
+<div class="section" id="check-pypi">
+<h2>Check PyPI</h2>
+<p>Check <a class="reference external" href="https://pypi.python.org/">PyPI</a> for updates.</p>
+<dl class="docutils">
+<dt>pypi</dt>
+<dd>The name used on PyPI, e.g. <code>PySide</code>.</dd>
+</dl>
+</div>
+<div class="section" id="check-rubygems">
+<h2>Check RubyGems</h2>
+<p>Check <a class="reference external" href="https://rubygems.org/">RubyGems</a> for updates.</p>
+<dl class="docutils">
+<dt>gems</dt>
+<dd>The name used on RubyGems, e.g. <code>sass</code>.</dd>
+</dl>
+</div>
+<div class="section" id="check-local-pacman-database">
+<h2>Check Local Pacman Database</h2>
+<p>This is used when you run <code>nvchecker</code> on an Arch Linux system and the program always keeps up with a package in your configured repositories for <a class="reference external" href="https://wiki.archlinux.org/index.php/Pacman">Pacman</a>.</p>
+<dl class="docutils">
+<dt>pacman</dt>
+<dd>The package name to reference to.</dd>
+</dl>
+</div>
+<div class="section" id="check-arch-linux-official-packages">
+<h2>Check Arch Linux official packages</h2>
+<p>This enables you to track the update of <a class="reference external" href="https://www.archlinux.org/packages/">Arch Linux official packages</a>, without needing of pacman and an updated local Pacman databases.</p>
+<dl class="docutils">
+<dt>archpkg</dt>
+<dd>Name of the Arch Linux package.</dd>
+</dl>
+</div>
+<div class="section" id="check-google-code-hg-repository">
+<h2>Check Google Code (hg repository)</h2>
+<p>Check a mercurial (hg) repository on <a class="reference external" href="https://code.google.com/">Google Code</a> for updates. The version returned is in date format <code>%Y%m%d</code>, e.g. <code>20130701</code>.</p>
+<dl class="docutils">
+<dt>gcode_hg</dt>
+<dd>The name used on Google Code, e.g. <code><span class="pre">chromium-compact-language-detector</span></code>.</dd>
+</dl>
+</div>
+<div class="section" id="manually-updating">
+<h2>Manually updating</h2>
+<p>This enables you to manually specify the version (maybe because you want to approve each release before it gets to the script).</p>
+<dl class="docutils">
+<dt>manual</dt>
+<dd>The version string.</dd>
+</dl>
+</div>
+<div class="section" id="version-control-system-vcs-git-hg-svn-bzr">
+<h2>Version Control System (VCS) (git, hg, svn, bzr)</h2>
+<p>Check a VCS repo for new commits. The version returned is currently not related to the version of the software and will increase whenever the referred VCS branch changes.</p>
+<dl class="docutils">
+<dt>vcs</dt>
+<dd>The url of the remote VCS repo, using the same syntax with a VCS url in PKGBUILD (<a class="reference external" href="https://wiki.archlinux.org/index.php/Pacman">Pacman</a>'s build script). The first VCS url found in the source array of the PKGBUILD will be used if this is left blank. (Note: for a blank <code>vcs</code> setting to work correctly, the PKGBUILD has to be in a directory with the name of the software under the path where nvchecker is run. Also, all the commands, if any, needed when sourcing the PKGBUILD need to be installed).</dd>
+</dl>
+</div>
+<div class="section" id="other">
+<h2>Other</h2>
+<p>More to come. Send me a patch or pull request if you can't wait and have written one yourself :-)</p>
+</div>
+<h1><a href="#bugs" class_="anchor" name="bugs"><span class_="octicon octicon-link"></span></a>Bugs</h1>
+<ul>
+<li>Finish writing results even on Ctrl-C or other interruption.</li>
+</ul>
+<h1><a href="#todo" class_="anchor" name="todo"><span class_="octicon octicon-link"></span></a>TODO</h1>
+<ul>
+<li>Support GitHub tags</li>
+</ul>
+<h1><a href="#footnotes" class_="anchor" name="footnotes"><span class_="octicon octicon-link"></span></a>Footnotes</h1>
+<table class="docutils citation" frame="void" id="v0-3" rules="none">
+<colgroup><col class="label"><col></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[v0.3]</a></td><td>Note: with nvchecker &lt;= 0.2, there are one more colon each line. You can use <code>sed <span class="pre">-i</span> <span class="pre">'s/://'</span> <span class="pre">FILES...</span></code> to remove them.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="v0-4" rules="none">
+<colgroup><col class="label"><col></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[v0.4]</a></td><td>This is added in version 0.4, and old command-line options are removed.</td></tr>
+</tbody>
+</table>
+</section>
+</div>
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
