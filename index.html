@@ -137,6 +137,12 @@ join old_ver.txt new_ver.txt | awk '$2 != $3'
 <dd>Which branch to track? Default: <code>master</code>.</dd>
 </dl>
 <p>An environment variable <code>NVCHECKER_GITHUB_TOKEN</code> can be set to a GitHub OAuth token in order to request more frequently than anonymously.</p>
+<dl class="docutils">
+<dt>use_latest_release</dt>
+<dd>Set this to <code>true</code> to check for the latest relase on GitHub. An annotated
+tag creates a "release" on GitHub. It's not the same with git tags, which
+includes both annotated tags and lightweight ones.</dd>
+</dl>
 </div>
 <div class="section" id="check-bitbucket">
 <h2>Check BitBucket</h2>
@@ -258,10 +264,6 @@ join old_ver.txt new_ver.txt | awk '$2 != $3'
 <h1><a class_="anchor" href="#bugs" name="bugs"><span class_="octicon octicon-link"></span></a>Bugs</h1>
 <ul>
 <li>Finish writing results even on Ctrl-C or other interruption.</li>
-</ul>
-<h1><a class_="anchor" href="#todo" name="todo"><span class_="octicon octicon-link"></span></a>TODO</h1>
-<ul>
-<li>Support GitHub tags</li>
 </ul>
 <h1><a class_="anchor" href="#footnotes" name="footnotes"><span class_="octicon octicon-link"></span></a>Footnotes</h1>
 <table class="docutils citation" frame="void" id="v0-3" rules="none">
