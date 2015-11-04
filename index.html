@@ -34,14 +34,15 @@
 
 
 <p><strong>nvchecker</strong> (short for <em>new version checker</em>) is for checking if a new version of some software has been released.</p>
-<h1><a href="#dependency" class_="anchor" name="dependency"><span class_="octicon octicon-link"></span></a>Dependency</h1>
+<a class="reference external image-reference" href="https://travis-ci.org/lilydjwg/nvchecker"><object data="https://travis-ci.org/lilydjwg/nvchecker.svg" type="image/svg+xml">Build Status</object></a>
+<h1><a class_="anchor" href="#dependency" name="dependency"><span class_="octicon octicon-link"></span></a>Dependency</h1>
 <ul>
 <li>Python 3</li>
 <li>Tornado</li>
 <li>Optional pycurl</li>
 <li>All commands used in your version source files</li>
 </ul>
-<h1><a href="#running" class_="anchor" name="running"><span class_="octicon octicon-link"></span></a>Running</h1>
+<h1><a class_="anchor" href="#running" name="running"><span class_="octicon octicon-link"></span></a>Running</h1>
 <p>To see available options:</p>
 <pre><code>./nvchecker --help
 </code></pre>
@@ -49,8 +50,8 @@
 <pre><code>./nvchecker source_file
 </code></pre>
 <p>You normally will like to specify some "version record files"; see below.</p>
-<h1><a href="#version%20record%20files" class_="anchor" name="version%20record%20files"><span class_="octicon octicon-link"></span></a>Version Record Files</h1>
-<p>Version record files record which version of the software you know or is available. They are simple key-value pairs of <code>(name, version)</code> seperated by a space<sup><a class="citation-reference" href="#v0-3" id="id1">[v0.3]</a>:</sup></p>
+<h1><a class_="anchor" href="#version%20record%20files" name="version%20record%20files"><span class_="octicon octicon-link"></span></a>Version Record Files</h1>
+<p>Version record files record which version of the software you know or is available. They are simple key-value pairs of <code>(name, version)</code> seperated by a space<sup><a class="citation-reference" href="#v0-3" id="id1">[v0.3]</a></sup>:</p>
 <pre><code>fcitx 4.2.7
 google-chrome 27.0.1453.93-200836
 vim 7.3.1024
@@ -74,12 +75,12 @@ join old_ver.txt new_ver.txt | awk '$2 != $3'
 <p>This helps when you have known (and processed) some of the updated software, but not all. You can tell nvchecker that via this command instead of editing the file by hand.</p>
 <p>This command will help most if you specify where you version record files are in your config file. See below for how to use a config file.</p>
 </div>
-<h1><a href="#version%20source%20files" class_="anchor" name="version%20source%20files"><span class_="octicon octicon-link"></span></a>Version Source Files</h1>
+<h1><a class_="anchor" href="#version%20source%20files" name="version%20source%20files"><span class_="octicon octicon-link"></span></a>Version Source Files</h1>
 <p>The software version source files are in ini format. <em>Section names</em> is the name of the software. Following fields are used to tell nvchecker how to determine the current version of that software.</p>
 <p>See <code>sample_source.ini</code> for an example.</p>
 <div class="section" id="configuration-section">
 <h2>Configuration Section</h2>
-<p>A special section named <code>__config__</code> is special, it provides some configuration options<sup><a class="citation-reference" href="#v0-4" id="id2">[v0.4]</a>.</sup></p>
+<p>A special section named <code>__config__</code> is special, it provides some configuration options<sup><a class="citation-reference" href="#v0-4" id="id2">[v0.4]</a></sup>.</p>
 <p>Relative path are relative to the source files, and <code>~</code> and environmental variables are expanded.</p>
 <p>Currently supported options are:</p>
 <dl class="docutils">
@@ -104,6 +105,8 @@ join old_ver.txt new_ver.txt | awk '$2 != $3'
 </dd>
 <dt>proxy</dt>
 <dd>The HTTP proxy to use. The format is <code>host:port</code>, e.g. <code>localhost:8087</code>. This requires <a class="reference external" href="http://pycurl.sourceforge.net/">pycurl</a>.</dd>
+<dt>user_agent</dt>
+<dd>The <code><span class="pre">User-Agent</span></code> header value to use. Use something more like a tool (e.g. <code>curl/7.40.0</code>) in Europe or the real web page won't get through because cookie policies (SourceForge has this issue).</dd>
 </dl>
 </div>
 <div class="section" id="find-with-a-command">
@@ -120,6 +123,8 @@ join old_ver.txt new_ver.txt | awk '$2 != $3'
 <dl class="docutils">
 <dt>aur</dt>
 <dd>The package name in AUR. If empty, use the name of software (the <em>section name</em>).</dd>
+<dt>strip-release</dt>
+<dd>Strip the release part.</dd>
 </dl>
 </div>
 <div class="section" id="check-github">
@@ -131,6 +136,28 @@ join old_ver.txt new_ver.txt | awk '$2 != $3'
 <dt>branch</dt>
 <dd>Which branch to track? Default: <code>master</code>.</dd>
 </dl>
+<p>An environment variable <code>NVCHECKER_GITHUB_TOKEN</code> can be set to a GitHub OAuth token in order to request more frequently than anonymously.</p>
+</div>
+<div class="section" id="check-bitbucket">
+<h2>Check BitBucket</h2>
+<p>Check <a class="reference external" href="https://bitbucket.org/">BitBucket</a> for updates. The version returned is in date format <code>%Y%m%d</code>, e.g. <code>20130701</code>.</p>
+<dl class="docutils">
+<dt>bitbucket</dt>
+<dd>The bitbucket repository, with author, e.g. <code>lilydjwg/dotvim</code>.</dd>
+<dt>branch</dt>
+<dd>Which branch to track? Default is the repository's default.</dd>
+</dl>
+</div>
+<div class="section" id="check-gitcafe">
+<h2>Check GitCafe</h2>
+<p>Check <a class="reference external" href="https://gitcafe.com/">GitCafe</a> for updates. The version returned is in date format <code>%Y%m%d</code>, e.g. <code>20130701</code>.</p>
+<dl class="docutils">
+<dt>gitcafe</dt>
+<dd>The gitcafe repository, with author, e.g. <code><span class="pre">Deepin/deepin-music</span></code>.</dd>
+<dt>branch</dt>
+<dd>Which branch to track? Default: <code>master</code>.</dd>
+</dl>
+<p>Anonymously only. Authorization is not supported yet.</p>
 </div>
 <div class="section" id="check-pypi">
 <h2>Check PyPI</h2>
@@ -148,12 +175,38 @@ join old_ver.txt new_ver.txt | awk '$2 != $3'
 <dd>The name used on RubyGems, e.g. <code>sass</code>.</dd>
 </dl>
 </div>
+<div class="section" id="check-npm-registry">
+<h2>Check NPM Registry</h2>
+<p>Check <a class="reference external" href="https://registry.npmjs.org/">NPM Registry</a> for updates.</p>
+<dl class="docutils">
+<dt>npm</dt>
+<dd>The name used on NPM Registry, e.g. <code><span class="pre">coffee-script</span></code>.</dd>
+</dl>
+</div>
+<div class="section" id="check-hackage">
+<h2>Check Hackage</h2>
+<p>Check <a class="reference external" href="https://hackage.haskell.org/">Hackage</a> for updates.</p>
+<dl class="docutils">
+<dt>hackage</dt>
+<dd>The name used on Hackage, e.g. <code>pandoc</code>.</dd>
+</dl>
+</div>
+<div class="section" id="check-cpan">
+<h2>Check CPAN</h2>
+<p>Check <a class="reference external" href="https://metacpan.org/">MetaCPAN</a> for updates.</p>
+<dl class="docutils">
+<dt>cpan</dt>
+<dd>The name used on CPAN, e.g. <code>YAML</code>.</dd>
+</dl>
+</div>
 <div class="section" id="check-local-pacman-database">
 <h2>Check Local Pacman Database</h2>
 <p>This is used when you run <code>nvchecker</code> on an Arch Linux system and the program always keeps up with a package in your configured repositories for <a class="reference external" href="https://wiki.archlinux.org/index.php/Pacman">Pacman</a>.</p>
 <dl class="docutils">
 <dt>pacman</dt>
 <dd>The package name to reference to.</dd>
+<dt>strip-release</dt>
+<dd>Strip the release part.</dd>
 </dl>
 </div>
 <div class="section" id="check-arch-linux-official-packages">
@@ -162,6 +215,8 @@ join old_ver.txt new_ver.txt | awk '$2 != $3'
 <dl class="docutils">
 <dt>archpkg</dt>
 <dd>Name of the Arch Linux package.</dd>
+<dt>strip-release</dt>
+<dd>Strip the release part.</dd>
 </dl>
 </div>
 <div class="section" id="check-google-code-hg-repository">
@@ -170,6 +225,14 @@ join old_ver.txt new_ver.txt | awk '$2 != $3'
 <dl class="docutils">
 <dt>gcode_hg</dt>
 <dd>The name used on Google Code, e.g. <code><span class="pre">chromium-compact-language-detector</span></code>.</dd>
+</dl>
+</div>
+<div class="section" id="check-google-code-svn-repository">
+<h2>Check Google Code (svn repository)</h2>
+<p>Check a subversion (svn) repository on <a class="reference external" href="https://code.google.com/">Google Code</a> for updates. The version returned is the svn resivion number.</p>
+<dl class="docutils">
+<dt>gcode_svn</dt>
+<dd>The name used on Google Code, e.g. <code>cld2</code>.</dd>
 </dl>
 </div>
 <div class="section" id="manually-updating">
@@ -192,15 +255,15 @@ join old_ver.txt new_ver.txt | awk '$2 != $3'
 <h2>Other</h2>
 <p>More to come. Send me a patch or pull request if you can't wait and have written one yourself :-)</p>
 </div>
-<h1><a href="#bugs" class_="anchor" name="bugs"><span class_="octicon octicon-link"></span></a>Bugs</h1>
+<h1><a class_="anchor" href="#bugs" name="bugs"><span class_="octicon octicon-link"></span></a>Bugs</h1>
 <ul>
 <li>Finish writing results even on Ctrl-C or other interruption.</li>
 </ul>
-<h1><a href="#todo" class_="anchor" name="todo"><span class_="octicon octicon-link"></span></a>TODO</h1>
+<h1><a class_="anchor" href="#todo" name="todo"><span class_="octicon octicon-link"></span></a>TODO</h1>
 <ul>
 <li>Support GitHub tags</li>
 </ul>
-<h1><a href="#footnotes" class_="anchor" name="footnotes"><span class_="octicon octicon-link"></span></a>Footnotes</h1>
+<h1><a class_="anchor" href="#footnotes" name="footnotes"><span class_="octicon octicon-link"></span></a>Footnotes</h1>
 <table class="docutils citation" frame="void" id="v0-3" rules="none">
 <colgroup><col class="label"><col></colgroup>
 <tbody valign="top">
