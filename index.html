@@ -178,6 +178,11 @@ includes both annotated tags and lightweight ones.</dd>
 <dd>Set this to <code>true</code> to check for the max tag on GitHub. Unlike <code>use_latest_release</code>,
 this option includes both annotated tags and lightweight ones, and return the biggest one
 sorted by <code>pkg_resources.parse_version</code>.</dd>
+<dt>ignored_tags</dt>
+<dd>Ignore certain tags while computing the max tag. Tags are separate by
+whitespaces. This option must be used together with <code>use_max_tag</code>. This can
+be useful to avoid some known badly versioned tags, so the newer tags won't
+be "overridden" by the old broken ones.</dd>
 </dl>
 <p>An environment variable <code>NVCHECKER_GITHUB_TOKEN</code> can be set to a GitHub OAuth token in order to request more frequently than anonymously.</p>
 </div>
@@ -192,6 +197,11 @@ sorted by <code>pkg_resources.parse_version</code>.</dd>
 <dt>use_max_tag</dt>
 <dd>Set this to <code>true</code> to check for the max tag on BitBucket. Will return the biggest one
 sorted by <code>pkg_resources.parse_version</code>.</dd>
+<dt>ignored_tags</dt>
+<dd>Ignore certain tags while computing the max tag. Tags are separate by
+whitespaces. This option must be used together with <code>use_max_tag</code>. This can
+be useful to avoid some known badly versioned tags, so the newer tags won't
+be "overridden" by the old broken ones.</dd>
 </dl>
 </div>
 <div class="section" id="check-gitcafe">
@@ -216,6 +226,11 @@ sorted by <code>pkg_resources.parse_version</code>.</dd>
 <dt>use_max_tag</dt>
 <dd>Set this to <code>true</code> to check for the max tag on BitBucket. Will return the biggest one
 sorted by <code>pkg_resources.parse_version</code>.</dd>
+<dt>ignored_tags</dt>
+<dd>Ignore certain tags while computing the max tag. Tags are separate by
+whitespaces. This option must be used together with <code>use_max_tag</code>. This can
+be useful to avoid some known badly versioned tags, so the newer tags won't
+be "overridden" by the old broken ones.</dd>
 <dt>host</dt>
 <dd>Hostname for self-hosted GitLab instance.</dd>
 <dt>token</dt>
@@ -261,6 +276,14 @@ sorted by <code>pkg_resources.parse_version</code>.</dd>
 <dl class="docutils">
 <dt>cpan</dt>
 <dd>The name used on CPAN, e.g. <code>YAML</code>.</dd>
+</dl>
+</div>
+<div class="section" id="check-packagist">
+<h2>Check Packagist</h2>
+<p>Check <a class="reference external" href="https://packagist.org/">Packagist</a> for updates.</p>
+<dl class="docutils">
+<dt>packagist</dt>
+<dd>The name used on Packagist, e.g. <code>monolog/monolog</code>.</dd>
 </dl>
 </div>
 <div class="section" id="check-local-pacman-database">
