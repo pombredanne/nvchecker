@@ -36,7 +36,7 @@
 <p><strong>nvchecker</strong> (short for <em>new version checker</em>) is for checking if a new version of some software has been released.</p>
 <a class="reference external image-reference" href="https://travis-ci.org/lilydjwg/nvchecker"><object data="https://travis-ci.org/lilydjwg/nvchecker.svg" type="image/svg+xml">Build Status</object></a>
 <a class="reference external image-reference" href="http://badge.fury.io/py/nvchecker"><object data="https://badge.fury.io/py/nvchecker.svg" type="image/svg+xml">PyPI version</object></a>
-<h1><a class_="anchor" href="#contents" name="contents"><span class_="octicon octicon-link"></span></a>Contents</h1>
+<h1><a name="contents" class_="anchor" href="#contents"><span class_="octicon octicon-link"></span></a>Contents</h1>
 <ul>
 <li><a class="reference external" href="#dependency">Dependency</a></li>
 <li><a class="reference external" href="#running">Running</a></li>
@@ -51,13 +51,13 @@
 <li><a class="reference external" href="#check-aur">Check AUR</a></li>
 <li><a class="reference external" href="#check-github">Check GitHub</a></li>
 <li><a class="reference external" href="#check-bitbucket">Check BitBucket</a></li>
-<li><a class="reference external" href="#check-gitcafe">Check GitCafe</a></li>
 <li><a class="reference external" href="#check-gitlab">Check GitLab</a></li>
 <li><a class="reference external" href="#check-pypi">Check PyPI</a></li>
 <li><a class="reference external" href="#check-rubygems">Check RubyGems</a></li>
 <li><a class="reference external" href="#check-npm-registry">Check NPM Registry</a></li>
 <li><a class="reference external" href="#check-hackage">Check Hackage</a></li>
 <li><a class="reference external" href="#check-cpan">Check CPAN</a></li>
+<li><a class="reference external" href="#check-packagist">Check Packagist</a></li>
 <li><a class="reference external" href="#check-local-pacman-database">Check Local Pacman Database</a></li>
 <li><a class="reference external" href="#check-arch-linux-official-packages">Check Arch Linux official packages</a></li>
 <li><a class="reference external" href="#check-google-code-hg-repository">Check Google Code (hg repository)</a></li>
@@ -70,14 +70,14 @@
 <li><a class="reference external" href="#bugs">Bugs</a></li>
 <li><a class="reference external" href="#footnotes">Footnotes</a></li>
 </ul>
-<h1><a class_="anchor" href="#dependency" name="dependency"><span class_="octicon octicon-link"></span></a>Dependency</h1>
+<h1><a name="dependency" class_="anchor" href="#dependency"><span class_="octicon octicon-link"></span></a>Dependency</h1>
 <ul>
 <li>Python 3</li>
 <li>Tornado</li>
 <li>Optional pycurl</li>
 <li>All commands used in your version source files</li>
 </ul>
-<h1><a class_="anchor" href="#running" name="running"><span class_="octicon octicon-link"></span></a>Running</h1>
+<h1><a name="running" class_="anchor" href="#running"><span class_="octicon octicon-link"></span></a>Running</h1>
 <p>To see available options:</p>
 <pre><code>./nvchecker --help
 </code></pre>
@@ -85,8 +85,8 @@
 <pre><code>./nvchecker source_file
 </code></pre>
 <p>You normally will like to specify some "version record files"; see below.</p>
-<h1><a class_="anchor" href="#version%20record%20files" name="version%20record%20files"><span class_="octicon octicon-link"></span></a>Version Record Files</h1>
-<p>Version record files record which version of the software you know or is available. They are simple key-value pairs of <code>(name, version)</code> seperated by a space<sup><a class="citation-reference" href="#v0-3" id="id1">[v0.3]</a></sup>:</p>
+<h1><a name="version%20record%20files" class_="anchor" href="#version%20record%20files"><span class_="octicon octicon-link"></span></a>Version Record Files</h1>
+<p>Version record files record which version of the software you know or is available. They are simple key-value pairs of <code>(name, version)</code> seperated by a space<sup><a class="citation-reference" href="#v0-3" id="id4">[v0.3]</a></sup>:</p>
 <pre><code>fcitx 4.2.7
 google-chrome 27.0.1453.93-200836
 vim 7.3.1024
@@ -104,18 +104,18 @@ comm -13 old_ver.txt new_ver.txt | awk '{print $1 " has updated to version " $2 
 # show both old and new versions
 join old_ver.txt new_ver.txt | awk '$2 != $3'
 </code></pre>
-<div class="section" id="the-nvtake-command">
+<div class="section" id="id5">
 <h2>The <code>nvtake</code> Command</h2>
 <p>This command helps to manage version record files. It reads both old and new version record files, and a list of names given on the commandline. It then update the versions of those names in the old version record file.</p>
 <p>This helps when you have known (and processed) some of the updated software, but not all. You can tell nvchecker that via this command instead of editing the file by hand.</p>
 <p>This command will help most if you specify where you version record files are in your config file. See below for how to use a config file.</p>
 </div>
-<h1><a class_="anchor" href="#version%20source%20files" name="version%20source%20files"><span class_="octicon octicon-link"></span></a>Version Source Files</h1>
+<h1><a name="version%20source%20files" class_="anchor" href="#version%20source%20files"><span class_="octicon octicon-link"></span></a>Version Source Files</h1>
 <p>The software version source files are in ini format. <em>Section names</em> is the name of the software. Following fields are used to tell nvchecker how to determine the current version of that software.</p>
 <p>See <code>sample_source.ini</code> for an example.</p>
-<div class="section" id="configuration-section">
+<div class="section" id="id7">
 <h2>Configuration Section</h2>
-<p>A special section named <code>__config__</code> is special, it provides some configuration options<sup><a class="citation-reference" href="#v0-4" id="id2">[v0.4]</a></sup>.</p>
+<p>A special section named <code>__config__</code> is special, it provides some configuration options<sup><a class="citation-reference" href="#v0-4" id="id8">[v0.4]</a></sup>.</p>
 <p>Relative path are relative to the source files, and <code>~</code> and environmental variables are expanded.</p>
 <p>Currently supported options are:</p>
 <dl class="docutils">
@@ -125,7 +125,7 @@ join old_ver.txt new_ver.txt | awk '$2 != $3'
 <dd>Specify a version record file to store the new version info.</dd>
 </dl>
 </div>
-<div class="section" id="search-in-a-webpage">
+<div class="section" id="id9">
 <h2>Search in a Webpage</h2>
 <p>Search through a specific webpage for the version string. This type of version finding has these fields:</p>
 <dl class="docutils">
@@ -142,9 +142,13 @@ join old_ver.txt new_ver.txt | awk '$2 != $3'
 <dd>The HTTP proxy to use. The format is <code>host:port</code>, e.g. <code>localhost:8087</code>. This requires <a class="reference external" href="http://pycurl.sourceforge.net/">pycurl</a>.</dd>
 <dt>user_agent</dt>
 <dd>The <code><span class="pre">User-Agent</span></code> header value to use. Use something more like a tool (e.g. <code>curl/7.40.0</code>) in Europe or the real web page won't get through because cookie policies (SourceForge has this issue).</dd>
+<dt>sort_version_key</dt>
+<dd>Sort the version string using this key function. Choose between <code>parse_version</code> and
+<code>vercmp</code>. Default value is <code>parse_version</code>. <code>parse_version</code> use
+<code>pkg_resources.parse_version</code>. <code>vercmp</code> use <code>pyalpm.vercmp</code>.</dd>
 </dl>
 </div>
-<div class="section" id="find-with-a-command">
+<div class="section" id="id10">
 <h2>Find with a Command</h2>
 <p>Use a shell command line to get the version. The output is striped first, so trailing newlines do not bother.</p>
 <dl class="docutils">
@@ -152,7 +156,7 @@ join old_ver.txt new_ver.txt | awk '$2 != $3'
 <dd>The command line to use. This will run with the system's standard shell (i.e. <code>/bin/sh</code>).</dd>
 </dl>
 </div>
-<div class="section" id="check-aur">
+<div class="section" id="id11">
 <h2>Check AUR</h2>
 <p>Check <a class="reference external" href="https://aur.archlinux.org/">Arch User Repository</a> for updates.</p>
 <dl class="docutils">
@@ -162,7 +166,7 @@ join old_ver.txt new_ver.txt | awk '$2 != $3'
 <dd>Strip the release part.</dd>
 </dl>
 </div>
-<div class="section" id="check-github">
+<div class="section" id="id12">
 <h2>Check GitHub</h2>
 <p>Check <a class="reference external" href="https://github.com/">GitHub</a> for updates. The version returned is in date format <code>%Y%m%d</code>, e.g. <code>20130701</code>.</p>
 <dl class="docutils">
@@ -183,10 +187,14 @@ sorted by <code>pkg_resources.parse_version</code>.</dd>
 whitespaces. This option must be used together with <code>use_max_tag</code>. This can
 be useful to avoid some known badly versioned tags, so the newer tags won't
 be "overridden" by the old broken ones.</dd>
+<dt>sort_version_key</dt>
+<dd>Sort the version string using this key function. Choose between <code>parse_version</code> and
+<code>vercmp</code>. Default value is <code>parse_version</code>. <code>parse_version</code> use
+<code>pkg_resources.parse_version</code>. <code>vercmp</code> use <code>pyalpm.vercmp</code>.</dd>
 </dl>
 <p>An environment variable <code>NVCHECKER_GITHUB_TOKEN</code> can be set to a GitHub OAuth token in order to request more frequently than anonymously.</p>
 </div>
-<div class="section" id="check-bitbucket">
+<div class="section" id="id13">
 <h2>Check BitBucket</h2>
 <p>Check <a class="reference external" href="https://bitbucket.org/">BitBucket</a> for updates. The version returned is in date format <code>%Y%m%d</code>, e.g. <code>20130701</code>.</p>
 <dl class="docutils">
@@ -202,20 +210,13 @@ sorted by <code>pkg_resources.parse_version</code>.</dd>
 whitespaces. This option must be used together with <code>use_max_tag</code>. This can
 be useful to avoid some known badly versioned tags, so the newer tags won't
 be "overridden" by the old broken ones.</dd>
+<dt>sort_version_key</dt>
+<dd>Sort the version string using this key function. Choose between <code>parse_version</code> and
+<code>vercmp</code>. Default value is <code>parse_version</code>. <code>parse_version</code> use
+<code>pkg_resources.parse_version</code>. <code>vercmp</code> use <code>pyalpm.vercmp</code>.</dd>
 </dl>
 </div>
-<div class="section" id="check-gitcafe">
-<h2>Check GitCafe</h2>
-<p>Check <a class="reference external" href="https://gitcafe.com/">GitCafe</a> for updates. The version returned is in date format <code>%Y%m%d</code>, e.g. <code>20130701</code>.</p>
-<dl class="docutils">
-<dt>gitcafe</dt>
-<dd>The gitcafe repository, with author, e.g. <code><span class="pre">Deepin/deepin-music</span></code>.</dd>
-<dt>branch</dt>
-<dd>Which branch to track? Default: <code>master</code>.</dd>
-</dl>
-<p>Anonymously only. Authorization is not supported yet.</p>
-</div>
-<div class="section" id="check-gitlab">
+<div class="section" id="id14">
 <h2>Check GitLab</h2>
 <p>Check <a class="reference external" href="https://gitlab.com/">GitLab</a> for updates. The version returned is in date format <code>%Y%m%d</code>, e.g. <code>20130701</code>.</p>
 <dl class="docutils">
@@ -231,6 +232,10 @@ sorted by <code>pkg_resources.parse_version</code>.</dd>
 whitespaces. This option must be used together with <code>use_max_tag</code>. This can
 be useful to avoid some known badly versioned tags, so the newer tags won't
 be "overridden" by the old broken ones.</dd>
+<dt>sort_version_key</dt>
+<dd>Sort the version string using this key function. Choose between <code>parse_version</code> and
+<code>vercmp</code>. Default value is <code>parse_version</code>. <code>parse_version</code> use
+<code>pkg_resources.parse_version</code>. <code>vercmp</code> use <code>pyalpm.vercmp</code>.</dd>
 <dt>host</dt>
 <dd>Hostname for self-hosted GitLab instance.</dd>
 <dt>token</dt>
@@ -238,7 +243,7 @@ be "overridden" by the old broken ones.</dd>
 </dl>
 <p>Authenticated only.</p>
 </div>
-<div class="section" id="check-pypi">
+<div class="section" id="id15">
 <h2>Check PyPI</h2>
 <p>Check <a class="reference external" href="https://pypi.python.org/">PyPI</a> for updates.</p>
 <dl class="docutils">
@@ -246,7 +251,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>The name used on PyPI, e.g. <code>PySide</code>.</dd>
 </dl>
 </div>
-<div class="section" id="check-rubygems">
+<div class="section" id="id16">
 <h2>Check RubyGems</h2>
 <p>Check <a class="reference external" href="https://rubygems.org/">RubyGems</a> for updates.</p>
 <dl class="docutils">
@@ -254,7 +259,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>The name used on RubyGems, e.g. <code>sass</code>.</dd>
 </dl>
 </div>
-<div class="section" id="check-npm-registry">
+<div class="section" id="id17">
 <h2>Check NPM Registry</h2>
 <p>Check <a class="reference external" href="https://registry.npmjs.org/">NPM Registry</a> for updates.</p>
 <dl class="docutils">
@@ -262,7 +267,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>The name used on NPM Registry, e.g. <code><span class="pre">coffee-script</span></code>.</dd>
 </dl>
 </div>
-<div class="section" id="check-hackage">
+<div class="section" id="id18">
 <h2>Check Hackage</h2>
 <p>Check <a class="reference external" href="https://hackage.haskell.org/">Hackage</a> for updates.</p>
 <dl class="docutils">
@@ -270,7 +275,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>The name used on Hackage, e.g. <code>pandoc</code>.</dd>
 </dl>
 </div>
-<div class="section" id="check-cpan">
+<div class="section" id="id19">
 <h2>Check CPAN</h2>
 <p>Check <a class="reference external" href="https://metacpan.org/">MetaCPAN</a> for updates.</p>
 <dl class="docutils">
@@ -278,7 +283,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>The name used on CPAN, e.g. <code>YAML</code>.</dd>
 </dl>
 </div>
-<div class="section" id="check-packagist">
+<div class="section" id="id20">
 <h2>Check Packagist</h2>
 <p>Check <a class="reference external" href="https://packagist.org/">Packagist</a> for updates.</p>
 <dl class="docutils">
@@ -286,7 +291,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>The name used on Packagist, e.g. <code>monolog/monolog</code>.</dd>
 </dl>
 </div>
-<div class="section" id="check-local-pacman-database">
+<div class="section" id="id21">
 <h2>Check Local Pacman Database</h2>
 <p>This is used when you run <code>nvchecker</code> on an Arch Linux system and the program always keeps up with a package in your configured repositories for <a class="reference external" href="https://wiki.archlinux.org/index.php/Pacman">Pacman</a>.</p>
 <dl class="docutils">
@@ -296,7 +301,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>Strip the release part.</dd>
 </dl>
 </div>
-<div class="section" id="check-arch-linux-official-packages">
+<div class="section" id="id22">
 <h2>Check Arch Linux official packages</h2>
 <p>This enables you to track the update of <a class="reference external" href="https://www.archlinux.org/packages/">Arch Linux official packages</a>, without needing of pacman and an updated local Pacman databases.</p>
 <dl class="docutils">
@@ -306,7 +311,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>Strip the release part.</dd>
 </dl>
 </div>
-<div class="section" id="check-google-code-hg-repository">
+<div class="section" id="id23">
 <h2>Check Google Code (hg repository)</h2>
 <p>Check a mercurial (hg) repository on <a class="reference external" href="https://code.google.com/">Google Code</a> for updates. The version returned is in date format <code>%Y%m%d</code>, e.g. <code>20130701</code>.</p>
 <dl class="docutils">
@@ -314,7 +319,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>The name used on Google Code, e.g. <code><span class="pre">chromium-compact-language-detector</span></code>.</dd>
 </dl>
 </div>
-<div class="section" id="check-google-code-svn-repository">
+<div class="section" id="id24">
 <h2>Check Google Code (svn repository)</h2>
 <p>Check a subversion (svn) repository on <a class="reference external" href="https://code.google.com/">Google Code</a> for updates. The version returned is the svn resivion number.</p>
 <dl class="docutils">
@@ -322,7 +327,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>The name used on Google Code, e.g. <code>cld2</code>.</dd>
 </dl>
 </div>
-<div class="section" id="manually-updating">
+<div class="section" id="id26">
 <h2>Manually updating</h2>
 <p>This enables you to manually specify the version (maybe because you want to approve each release before it gets to the script).</p>
 <dl class="docutils">
@@ -330,33 +335,41 @@ be "overridden" by the old broken ones.</dd>
 <dd>The version string.</dd>
 </dl>
 </div>
-<div class="section" id="version-control-system-vcs-git-hg-svn-bzr">
+<div class="section" id="id27">
 <h2>Version Control System (VCS) (git, hg, svn, bzr)</h2>
 <p>Check a VCS repo for new commits. The version returned is currently not related to the version of the software and will increase whenever the referred VCS branch changes. This is mainly for Arch Linux.</p>
 <dl class="docutils">
 <dt>vcs</dt>
 <dd>The url of the remote VCS repo, using the same syntax with a VCS url in PKGBUILD (<a class="reference external" href="https://wiki.archlinux.org/index.php/Pacman">Pacman</a>'s build script). The first VCS url found in the source array of the PKGBUILD will be used if this is left blank. (Note: for a blank <code>vcs</code> setting to work correctly, the PKGBUILD has to be in a directory with the name of the software under the path where nvchecker is run. Also, all the commands, if any, needed when sourcing the PKGBUILD need to be installed).</dd>
+<dt>use_max_tag</dt>
+<dd>Set this to <code>true</code> to check for the max tag. Currently only supported for <code>git</code>.
+This option returns the biggest tag sorted by <code>pkg_resources.parse_version</code>.</dd>
+<dt>ignored_tags</dt>
+<dd>Ignore certain tags while computing the max tag. Tags are separate by
+whitespaces. This option must be used together with <code>use_max_tag</code>. This can
+be useful to avoid some known badly versioned tags, so the newer tags won't
+be "overridden" by the old broken ones.</dd>
 </dl>
 </div>
-<div class="section" id="other">
+<div class="section" id="id28">
 <h2>Other</h2>
 <p>More to come. Send me a patch or pull request if you can't wait and have written one yourself :-)</p>
 </div>
-<h1><a class_="anchor" href="#bugs" name="bugs"><span class_="octicon octicon-link"></span></a>Bugs</h1>
+<h1><a name="bugs" class_="anchor" href="#bugs"><span class_="octicon octicon-link"></span></a>Bugs</h1>
 <ul>
 <li>Finish writing results even on Ctrl-C or other interruption.</li>
 </ul>
-<h1><a class_="anchor" href="#footnotes" name="footnotes"><span class_="octicon octicon-link"></span></a>Footnotes</h1>
+<h1><a name="footnotes" class_="anchor" href="#footnotes"><span class_="octicon octicon-link"></span></a>Footnotes</h1>
 <table class="docutils citation" frame="void" id="v0-3" rules="none">
 <colgroup><col class="label"><col></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[v0.3]</a></td><td>Note: with nvchecker &lt;= 0.2, there are one more colon each line. You can use <code>sed <span class="pre">-i</span> <span class="pre">'s/://'</span> <span class="pre">FILES...</span></code> to remove them.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id4">[v0.3]</a></td><td>Note: with nvchecker &lt;= 0.2, there are one more colon each line. You can use <code>sed <span class="pre">-i</span> <span class="pre">'s/://'</span> <span class="pre">FILES...</span></code> to remove them.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="v0-4" rules="none">
 <colgroup><col class="label"><col></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[v0.4]</a></td><td>This is added in version 0.4, and old command-line options are removed.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id8">[v0.4]</a></td><td>This is added in version 0.4, and old command-line options are removed.</td></tr>
 </tbody>
 </table>
 </section>
