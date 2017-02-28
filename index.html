@@ -191,10 +191,12 @@ be "overridden" by the old broken ones.</dd>
 <dd>Sort the version string using this key function. Choose between <code>parse_version</code> and
 <code>vercmp</code>. Default value is <code>parse_version</code>. <code>parse_version</code> use
 <code>pkg_resources.parse_version</code>. <code>vercmp</code> use <code>pyalpm.vercmp</code>.</dd>
+<dt>proxy</dt>
+<dd>The HTTP proxy to use. The format is <code>host:port</code>, e.g. <code>localhost:8087</code>. This requires <a class="reference external" href="http://pycurl.sourceforge.net/">pycurl</a>.</dd>
 </dl>
 <p>An environment variable <code>NVCHECKER_GITHUB_TOKEN</code> can be set to a GitHub OAuth token in order to request more frequently than anonymously.</p>
 </div>
-<div class="section" id="id13">
+<div class="section" id="id14">
 <h2>Check BitBucket</h2>
 <p>Check <a class="reference external" href="https://bitbucket.org/">BitBucket</a> for updates. The version returned is in date format <code>%Y%m%d</code>, e.g. <code>20130701</code>.</p>
 <dl class="docutils">
@@ -216,7 +218,7 @@ be "overridden" by the old broken ones.</dd>
 <code>pkg_resources.parse_version</code>. <code>vercmp</code> use <code>pyalpm.vercmp</code>.</dd>
 </dl>
 </div>
-<div class="section" id="id14">
+<div class="section" id="id15">
 <h2>Check GitLab</h2>
 <p>Check <a class="reference external" href="https://gitlab.com/">GitLab</a> for updates. The version returned is in date format <code>%Y%m%d</code>, e.g. <code>20130701</code>.</p>
 <dl class="docutils">
@@ -243,7 +245,7 @@ be "overridden" by the old broken ones.</dd>
 </dl>
 <p>Authenticated only.</p>
 </div>
-<div class="section" id="id15">
+<div class="section" id="id16">
 <h2>Check PyPI</h2>
 <p>Check <a class="reference external" href="https://pypi.python.org/">PyPI</a> for updates.</p>
 <dl class="docutils">
@@ -251,7 +253,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>The name used on PyPI, e.g. <code>PySide</code>.</dd>
 </dl>
 </div>
-<div class="section" id="id16">
+<div class="section" id="id17">
 <h2>Check RubyGems</h2>
 <p>Check <a class="reference external" href="https://rubygems.org/">RubyGems</a> for updates.</p>
 <dl class="docutils">
@@ -259,7 +261,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>The name used on RubyGems, e.g. <code>sass</code>.</dd>
 </dl>
 </div>
-<div class="section" id="id17">
+<div class="section" id="id18">
 <h2>Check NPM Registry</h2>
 <p>Check <a class="reference external" href="https://registry.npmjs.org/">NPM Registry</a> for updates.</p>
 <dl class="docutils">
@@ -267,7 +269,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>The name used on NPM Registry, e.g. <code><span class="pre">coffee-script</span></code>.</dd>
 </dl>
 </div>
-<div class="section" id="id18">
+<div class="section" id="id19">
 <h2>Check Hackage</h2>
 <p>Check <a class="reference external" href="https://hackage.haskell.org/">Hackage</a> for updates.</p>
 <dl class="docutils">
@@ -275,15 +277,17 @@ be "overridden" by the old broken ones.</dd>
 <dd>The name used on Hackage, e.g. <code>pandoc</code>.</dd>
 </dl>
 </div>
-<div class="section" id="id19">
+<div class="section" id="id20">
 <h2>Check CPAN</h2>
 <p>Check <a class="reference external" href="https://metacpan.org/">MetaCPAN</a> for updates.</p>
 <dl class="docutils">
 <dt>cpan</dt>
 <dd>The name used on CPAN, e.g. <code>YAML</code>.</dd>
+<dt>proxy</dt>
+<dd>The HTTP proxy to use. The format is <code>host:port</code>, e.g. <code>localhost:8087</code>. This requires <a class="reference external" href="http://pycurl.sourceforge.net/">pycurl</a>.</dd>
 </dl>
 </div>
-<div class="section" id="id20">
+<div class="section" id="id22">
 <h2>Check Packagist</h2>
 <p>Check <a class="reference external" href="https://packagist.org/">Packagist</a> for updates.</p>
 <dl class="docutils">
@@ -291,7 +295,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>The name used on Packagist, e.g. <code>monolog/monolog</code>.</dd>
 </dl>
 </div>
-<div class="section" id="id21">
+<div class="section" id="id23">
 <h2>Check Local Pacman Database</h2>
 <p>This is used when you run <code>nvchecker</code> on an Arch Linux system and the program always keeps up with a package in your configured repositories for <a class="reference external" href="https://wiki.archlinux.org/index.php/Pacman">Pacman</a>.</p>
 <dl class="docutils">
@@ -301,7 +305,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>Strip the release part.</dd>
 </dl>
 </div>
-<div class="section" id="id22">
+<div class="section" id="id24">
 <h2>Check Arch Linux official packages</h2>
 <p>This enables you to track the update of <a class="reference external" href="https://www.archlinux.org/packages/">Arch Linux official packages</a>, without needing of pacman and an updated local Pacman databases.</p>
 <dl class="docutils">
@@ -311,7 +315,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>Strip the release part.</dd>
 </dl>
 </div>
-<div class="section" id="id23">
+<div class="section" id="id25">
 <h2>Check Google Code (hg repository)</h2>
 <p>Check a mercurial (hg) repository on <a class="reference external" href="https://code.google.com/">Google Code</a> for updates. The version returned is in date format <code>%Y%m%d</code>, e.g. <code>20130701</code>.</p>
 <dl class="docutils">
@@ -319,7 +323,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>The name used on Google Code, e.g. <code><span class="pre">chromium-compact-language-detector</span></code>.</dd>
 </dl>
 </div>
-<div class="section" id="id24">
+<div class="section" id="id26">
 <h2>Check Google Code (svn repository)</h2>
 <p>Check a subversion (svn) repository on <a class="reference external" href="https://code.google.com/">Google Code</a> for updates. The version returned is the svn resivion number.</p>
 <dl class="docutils">
@@ -327,7 +331,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>The name used on Google Code, e.g. <code>cld2</code>.</dd>
 </dl>
 </div>
-<div class="section" id="id26">
+<div class="section" id="id28">
 <h2>Manually updating</h2>
 <p>This enables you to manually specify the version (maybe because you want to approve each release before it gets to the script).</p>
 <dl class="docutils">
@@ -335,7 +339,7 @@ be "overridden" by the old broken ones.</dd>
 <dd>The version string.</dd>
 </dl>
 </div>
-<div class="section" id="id27">
+<div class="section" id="id29">
 <h2>Version Control System (VCS) (git, hg, svn, bzr)</h2>
 <p>Check a VCS repo for new commits. The version returned is currently not related to the version of the software and will increase whenever the referred VCS branch changes. This is mainly for Arch Linux.</p>
 <dl class="docutils">
@@ -351,7 +355,7 @@ be useful to avoid some known badly versioned tags, so the newer tags won't
 be "overridden" by the old broken ones.</dd>
 </dl>
 </div>
-<div class="section" id="id28">
+<div class="section" id="id30">
 <h2>Other</h2>
 <p>More to come. Send me a patch or pull request if you can't wait and have written one yourself :-)</p>
 </div>
