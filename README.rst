@@ -24,7 +24,6 @@ Contents
   * `Check AUR <#check-aur>`_
   * `Check GitHub <#check-github>`_
   * `Check BitBucket <#check-bitbucket>`_
-  * `Check GitCafe <#check-gitcafe>`_
   * `Check GitLab <#check-gitlab>`_
   * `Check PyPI <#check-pypi>`_
   * `Check RubyGems <#check-rubygems>`_
@@ -114,12 +113,6 @@ oldver
 newver
   Specify a version record file to store the new version info.
 
-sort_version_key
-  Sort the version string using this key function. Choose between ``parse_version`` and 
-  ``vercmp``. Default value is ``parse_version``. ``parse_version`` use 
-  ``pkg_resources.parse_version``. ``vercmp`` use ``pyalpm.vercmp``.
-
-
 Search in a Webpage
 -------------------
 Search through a specific webpage for the version string. This type of version finding has these fields:
@@ -196,6 +189,9 @@ sort_version_key
   ``vercmp``. Default value is ``parse_version``. ``parse_version`` use 
   ``pkg_resources.parse_version``. ``vercmp`` use ``pyalpm.vercmp``.
 
+proxy
+  The HTTP proxy to use. The format is ``host:port``, e.g. ``localhost:8087``. This requires `pycurl <http://pycurl.sourceforge.net/>`_.
+
 An environment variable ``NVCHECKER_GITHUB_TOKEN`` can be set to a GitHub OAuth token in order to request more frequently than anonymously.
 
 Check BitBucket
@@ -222,18 +218,6 @@ sort_version_key
   Sort the version string using this key function. Choose between ``parse_version`` and 
   ``vercmp``. Default value is ``parse_version``. ``parse_version`` use 
   ``pkg_resources.parse_version``. ``vercmp`` use ``pyalpm.vercmp``.
-
-Check GitCafe
--------------
-Check `GitCafe <https://gitcafe.com/>`_ for updates. The version returned is in date format ``%Y%m%d``, e.g. ``20130701``.
-
-gitcafe
-  The gitcafe repository, with author, e.g. ``Deepin/deepin-music``.
-
-branch
-  Which branch to track? Default: ``master``.
-
-Anonymously only. Authorization is not supported yet.
 
 Check GitLab
 -------------
@@ -302,6 +286,9 @@ Check `MetaCPAN <https://metacpan.org/>`_ for updates.
 
 cpan
   The name used on CPAN, e.g. ``YAML``.
+
+proxy
+  The HTTP proxy to use. The format is ``host:port``, e.g. ``localhost:8087``. This requires `pycurl <http://pycurl.sourceforge.net/>`_.
 
 Check Packagist
 ---------------

@@ -1,9 +1,13 @@
+# MIT licensed
+# Copyright (c) 2013-2017 lilydjwg <lilydjwg@gmail.com>, et al.
+
 import os
 import json
 from functools import partial
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 
+from .base import pycurl
 from ..sortversion import sort_version_keys
 
 GITHUB_URL = 'https://api.github.com/repos/%s/commits?sha=%s'
@@ -26,7 +30,15 @@ def get_version(name, conf, callback):
   headers = {'Accept': "application/vnd.github.quicksilver-preview+json"}
   if 'NVCHECKER_GITHUB_TOKEN' in os.environ:
     headers['Authorization'] = 'token %s' % os.environ['NVCHECKER_GITHUB_TOKEN']
-  request = HTTPRequest(url, headers=headers, user_agent='lilydjwg/nvchecker')
+
+  kwargs = {}
+  if conf.get('proxy'):
+    if pycurl:
+      kwargs['proxy_host'] = "".join(conf['proxy'].split(':')[:-1])
+      kwargs['proxy_port'] = int(conf['proxy'].split(':')[-1])
+    else:
+      logger.warn('%s: proxy set but not used because pycurl is unavailable.', name)
+  request = HTTPRequest(url, headers=headers, user_agent='lilydjwg/nvchecker', **kwargs)
   AsyncHTTPClient().fetch(request,
                           callback=partial(_github_done, name, use_latest_release, use_max_tag, ignored_tags, sort_version_key, callback))
 

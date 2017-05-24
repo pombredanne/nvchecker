@@ -1,11 +1,14 @@
+# MIT licensed
+# Copyright (c) 2013-2017 lilydjwg <lilydjwg@gmail.com>, et al.
+
 import logging
 from importlib import import_module
 
 logger = logging.getLogger(__name__)
 handler_precedence = (
-  'github', 'gitcafe', 'aur', 'pypi', 'archpkg', 'gems', 'pacman',
+  'github', 'aur', 'pypi', 'archpkg', 'gems', 'pacman',
   'cmd', 'bitbucket', 'gcode_hg', 'gcode_svn', 'regex', 'manual', 'vcs',
-  'npm', 'hackage', 'cpan', 'gitlab', 'packagist'
+  'cratesio', 'npm', 'hackage', 'cpan', 'gitlab', 'packagist'
 )
 
 def get_version(name, conf, callback):
