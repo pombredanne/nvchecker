@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-# vim:fileencoding=utf-8
 
 from setuptools import setup, find_packages
 import nvchecker
+
+# The complex upload command:
+# rm -rf dist && python setup.py sdist && twine check dist/* && twine upload -s dist/*
 
 setup(
   name = 'nvchecker',
@@ -14,18 +16,24 @@ setup(
   keywords = 'new version build check',
   url = 'https://github.com/lilydjwg/nvchecker',
   long_description = open('README.rst', encoding='utf-8').read(),
+  long_description_content_type = 'text/x-rst',
   platforms = 'any',
-  zip_safe = True,
+  zip_safe = False,
 
   packages = find_packages(exclude=["tests"]),
-  install_requires = ['tornado>=4.1', 'setuptools'],
+  install_requires = ['setuptools', 'structlog', 'tornado>=6', 'pycurl'],
+  extras_require = {
+    'vercmp': ['pyalpm'],
+  },
   tests_require = [
     'pytest',
+    'pytest-asyncio',
+    'pytest-httpbin',
     'flaky',
   ],
   entry_points = {
     'console_scripts': [
-      'nvchecker = nvchecker.main:main',
+      'nvchecker = nvchecker.__main__:main',
       'nvtake = nvchecker.tools:take',
       'nvcmp = nvchecker.tools:cmp',
     ],
@@ -33,7 +41,7 @@ setup(
   package_data = {'nvchecker': ['source/vcs.sh']},
 
   classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
     "Intended Audience :: Developers",
     "Intended Audience :: System Administrators",
@@ -42,8 +50,10 @@ setup(
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.4",
     "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
     "Topic :: Internet",
     "Topic :: Internet :: WWW/HTTP",
     "Topic :: Software Development",

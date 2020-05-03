@@ -1,15 +1,26 @@
 # MIT licensed
 # Copyright (c) 2013-2017 lilydjwg <lilydjwg@gmail.com>, et al.
 
-from .simple_json import simple_json
+from pkg_resources import parse_version
 
-PYPI_URL = 'https://pypi.python.org/pypi/%s/json'
+from . import conf_cacheable_with_name, session
 
-def _version_from_json(data):
-  return data['info']['version']
+get_cacheable_conf = conf_cacheable_with_name('pypi')
 
-get_version = simple_json(
-  PYPI_URL,
-  'pypi',
-  _version_from_json,
-)
+async def get_version(name, conf, **kwargs):
+  package = conf.get('pypi') or name
+  use_pre_release = conf.getboolean('use_pre_release', False)
+
+  url = 'https://pypi.org/pypi/{}/json'.format(package)
+
+  async with session.get(url) as res:
+    data = await res.json()
+
+  if use_pre_release:
+    version = sorted(
+      data['releases'].keys(),
+      key = parse_version,
+    )[-1]
+  else:
+    version = data['info']['version']
+  return version

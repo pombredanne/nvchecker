@@ -5,15 +5,19 @@
 import sys
 import os
 import argparse
-import logging
+import structlog
 
 from . import core
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(logger_name=__name__)
 
 def take():
   parser = argparse.ArgumentParser(description='update version records of nvchecker')
   core.add_common_arguments(parser)
+  parser.add_argument('--all', action='store_true',
+                      help='take all updates')
+  parser.add_argument('--ignore-nonexistent', action='store_true',
+                      help='ignore nonexistent names')
   parser.add_argument('names', metavar='NAME', nargs='*',
                       help='software name to be updated')
   args = parser.parse_args()
@@ -22,16 +26,29 @@ def take():
 
   s = core.Source(args.file)
   if not s.oldver or not s.newver:
-    logger.fatal(
-      "%s doesn't have both 'oldver' and 'newver' set.", s
+    logger.critical(
+      "doesn't have both 'oldver' and 'newver' set.", source=s,
     )
     sys.exit(2)
 
   oldvers = core.read_verfile(s.oldver)
   newvers = core.read_verfile(s.newver)
 
-  for name in args.names:
-    oldvers[name] = newvers[name]
+  if args.all:
+    oldvers.update(newvers)
+  else:
+    for name in args.names:
+      try:
+        oldvers[name] = newvers[name]
+      except KeyError:
+        if args.ignore_nonexistent:
+          logger.warning('nonexistent in newver, ignored', name=name)
+          continue
+
+        logger.critical(
+          "doesn't exist in 'newver' set.", name=name,
+        )
+        sys.exit(2)
 
   try:
       os.rename(s.oldver, s.oldver + '~')

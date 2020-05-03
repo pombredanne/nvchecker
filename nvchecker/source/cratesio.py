@@ -1,25 +1,15 @@
 # MIT licensed
-# Copyright (c) 2013-2017 lilydjwg <lilydjwg@gmail.com>, et al.
+# Copyright (c) 2013-2018 lilydjwg <lilydjwg@gmail.com>, et al.
 
-import os
-import json
-from functools import partial
-
-from tornado.httpclient import AsyncHTTPClient, HTTPRequest
-
-from ..sortversion import sort_version_keys
+from . import session, conf_cacheable_with_name
 
 API_URL = 'https://crates.io/api/v1/crates/%s'
 
-def get_version(name, conf, callback):
-  name = conf.get('cratesio') or name
-  request = HTTPRequest(API_URL % name, user_agent='lilydjwg/nvchecker')
-  AsyncHTTPClient().fetch(
-    request,
-    callback = partial(_cratesio_done, name, callback),
-  )
+get_cacheable_conf = conf_cacheable_with_name('cratesio')
 
-def _cratesio_done(name, callback, res):
-  data = json.loads(res.body.decode('utf-8'))
+async def get_version(name, conf, **kwargs):
+  name = conf.get('cratesio') or name
+  async with session.get(API_URL % name) as res:
+    data = await res.json()
   version = [v['num'] for v in data['versions'] if not v['yanked']][0]
-  callback(name, version)
+  return version
